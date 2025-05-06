@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:trend_vocab/src/widget/quiz_screen.dart';
 
 void main() {
-  runApp(const MainApp());
-}
+  WidgetsFlutterBinding.ensureInitialized();
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(body: Center(child: Text('Hello World!'))),
-    );
-  }
+  runApp(
+    MaterialApp(
+      theme: ThemeData.from(
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0X004A917F)),
+      ),
+      home: QuizScreen(),
+    ),
+  );
 }
