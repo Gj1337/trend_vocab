@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:trend_vocab/src/controller/quiz_controller.dart';
 import 'package:trend_vocab/src/entity/quiz.dart';
@@ -50,6 +52,7 @@ class _QuizScreenState extends State<QuizScreen> {
     return Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(switch (_quizAnswerStatus) {
               _QuizAnswerStatus.wrong => '❌',
@@ -77,23 +80,48 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 }
 
-class QuizWidget extends StatelessWidget {
+class QuizWidget extends StatefulWidget {
   const QuizWidget({super.key, required this.quiz, this.onQuizAnswer});
 
   final Quiz quiz;
   final void Function(Quiz quiz, String answer)? onQuizAnswer;
 
   @override
+  State<QuizWidget> createState() => _QuizWidgetState();
+}
+
+class _QuizWidgetState extends State<QuizWidget> {
+  var isAnswered = false;
+
+  @override
+  void didUpdateWidget(covariant QuizWidget oldWidget) {
+    if (oldWidget.quiz != widget.quiz) {
+      isAnswered = false;
+    }
+
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
+      spacing: 10,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        ImageFiltered(
+          imageFilter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          enabled: !isAnswered,
+          child: Text(
+            widget.quiz.expression.name,
+            style: TextStyle(fontSize: 24),
+          ),
+        ),
         Flexible(
           child: ConstrainedBox(
             constraints: BoxConstraints(maxHeight: 500, maxWidth: 500),
             child: Image.asset(
-              key: ValueKey(quiz.expression.image),
-              quiz.expression.image,
+              key: ValueKey(widget.quiz.expression.image),
+              widget.quiz.expression.image,
             ),
           ),
         ),
@@ -101,11 +129,13 @@ class QuizWidget extends StatelessWidget {
           spacing: 10,
           runSpacing: 10,
           children:
-              quiz.possibleVariants
+              widget.quiz.possibleVariants
                   .map(
                     (variant) => OutlinedButton(
                       onPressed: () {
-                        onQuizAnswer?.call(quiz, variant);
+                        widget.onQuizAnswer?.call(widget.quiz, variant);
+
+                        setState(() => isAnswered = true);
                       },
                       child: Text(variant),
                     ),
