@@ -8,7 +8,7 @@ void main() {
     MaterialApp(
       theme: ThemeData.from(
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0X004A917F)),
-      ),
+      ).copyWith(scaffoldBackgroundColor: Colors.white),
       home: QuizScreen(),
     ),
   );

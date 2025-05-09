@@ -5,9 +5,14 @@ final _wrongColor = Colors.red.withAlpha(100);
 const _defaultColor = Colors.transparent;
 
 class BackgroundAnimationWrapper extends StatefulWidget {
-  const BackgroundAnimationWrapper({super.key, this.accept});
+  const BackgroundAnimationWrapper({
+    super.key,
+    this.accept,
+    this.duration = const Duration(milliseconds: 750),
+  });
 
   final bool? accept;
+  final Duration duration;
 
   @override
   State<BackgroundAnimationWrapper> createState() =>
@@ -33,7 +38,7 @@ class _BackgroundAnimationWrapperState extends State<BackgroundAnimationWrapper>
   Widget build(BuildContext context) {
     return AnimatedContainer(
       color: _color,
-      duration: Duration(milliseconds: 500),
+      duration: widget.duration,
       onEnd: () => setState(() => _color = _defaultColor),
     );
   }

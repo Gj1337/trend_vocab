@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:trend_vocab/src/controller/quiz_controller.dart';
 import 'package:trend_vocab/src/entity/quiz.dart';
 import 'package:trend_vocab/src/widget/background_animation_wrapper.dart';
+import 'package:trend_vocab/src/widget/tick_cross_animation_wrapper.dart';
 
 enum _QuizAnswerStatus { wait, wrong, correct }
 
@@ -59,36 +60,31 @@ class _QuizScreenState extends State<QuizScreen>
 
   @override
   Widget build(BuildContext context) {
+    final accept = switch (_quizAnswerStatus) {
+      _QuizAnswerStatus.wait => null,
+      _QuizAnswerStatus.wrong => false,
+      _QuizAnswerStatus.correct => true,
+    };
+
     return Scaffold(
       body: Stack(
+        alignment: AlignmentDirectional.center,
         children: [
-          BackgroundAnimationWrapper(
-            accept: switch (_quizAnswerStatus) {
-              _QuizAnswerStatus.wait => null,
-              _QuizAnswerStatus.wrong => false,
-              _QuizAnswerStatus.correct => true,
-            },
-          ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 500),
-                    child:
-                        quiz == null
-                            ? CircularProgressIndicator()
-                            : QuizWidget(
-                              key: ObjectKey(quiz),
-                              quiz: quiz!,
-                              onQuizAnswer: onQuizAnswer,
-                            ),
-                  ),
-                ),
-              ],
+          BackgroundAnimationWrapper(accept: accept),
+          Expanded(
+            child: AnimatedSwitcher(
+              duration: Duration(milliseconds: 500),
+              child:
+                  quiz == null
+                      ? CircularProgressIndicator()
+                      : QuizWidget(
+                        key: ObjectKey(quiz),
+                        quiz: quiz!,
+                        onQuizAnswer: onQuizAnswer,
+                      ),
             ),
           ),
+          TickCrossAnimationWrapper(accept: accept),
         ],
       ),
     );
@@ -128,7 +124,8 @@ class _QuizWidgetState extends State<QuizWidget> {
           enabled: !isAnswered,
           child: Text(
             widget.quiz.expression.name,
-            style: TextStyle(fontSize: 24),
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
           ),
         ),
         Flexible(
