@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:trend_vocab/src/widget/quiz_screen.dart';
+import 'package:trend_vocab/src/widget/theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(
     MaterialApp(
-      theme: ThemeData.from(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0X004A917F)),
-      ).copyWith(scaffoldBackgroundColor: Colors.white),
-      home: QuizScreen(),
+      theme: appTheme,
+      darkTheme: appDarkTheme,
+      home: const SafeArea(child: QuizScreen()),
     ),
   );
 }

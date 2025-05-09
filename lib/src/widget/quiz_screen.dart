@@ -1,9 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:trend_vocab/src/controller/quiz_controller.dart';
 import 'package:trend_vocab/src/entity/quiz.dart';
 import 'package:trend_vocab/src/widget/background_animation_wrapper.dart';
+import 'package:trend_vocab/src/widget/quiz_widget.dart';
 import 'package:trend_vocab/src/widget/tick_cross_animation_wrapper.dart';
 
 enum _QuizAnswerStatus { wait, wrong, correct }
@@ -44,7 +43,7 @@ class _QuizScreenState extends State<QuizScreen>
           isAnswerRight ? _QuizAnswerStatus.correct : _QuizAnswerStatus.wrong;
     });
 
-    Future.delayed(Duration(seconds: 1)).then((_) {
+    Future.delayed(const Duration(seconds: 1)).then((_) {
       updateQuiz();
     });
   }
@@ -73,88 +72,23 @@ class _QuizScreenState extends State<QuizScreen>
           BackgroundAnimationWrapper(accept: accept),
           Expanded(
             child: AnimatedSwitcher(
-              duration: Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 500),
               child:
-                  quiz == null
-                      ? CircularProgressIndicator()
-                      : QuizWidget(
+                  quiz != null
+                      ? Padding(
                         key: ObjectKey(quiz),
-                        quiz: quiz!,
-                        onQuizAnswer: onQuizAnswer,
-                      ),
+                        padding: const EdgeInsets.all(10),
+                        child: QuizWidget(
+                          quiz: quiz!,
+                          onQuizAnswer: onQuizAnswer,
+                        ),
+                      )
+                      : const CircularProgressIndicator(),
             ),
           ),
           TickCrossAnimationWrapper(accept: accept),
         ],
       ),
-    );
-  }
-}
-
-class QuizWidget extends StatefulWidget {
-  const QuizWidget({super.key, required this.quiz, this.onQuizAnswer});
-
-  final Quiz quiz;
-  final void Function(Quiz quiz, String answer)? onQuizAnswer;
-
-  @override
-  State<QuizWidget> createState() => _QuizWidgetState();
-}
-
-class _QuizWidgetState extends State<QuizWidget> {
-  var isAnswered = false;
-
-  @override
-  void didUpdateWidget(covariant QuizWidget oldWidget) {
-    if (oldWidget.quiz != widget.quiz) {
-      isAnswered = false;
-    }
-
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      spacing: 10,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ImageFiltered(
-          imageFilter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          enabled: !isAnswered,
-          child: Text(
-            widget.quiz.expression.name,
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Flexible(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 500, maxWidth: 500),
-            child: Image.asset(
-              key: ValueKey(widget.quiz.expression.image),
-              widget.quiz.expression.image,
-            ),
-          ),
-        ),
-        Wrap(
-          spacing: 10,
-          runSpacing: 10,
-          children:
-              widget.quiz.possibleVariants
-                  .map(
-                    (variant) => OutlinedButton(
-                      onPressed: () {
-                        widget.onQuizAnswer?.call(widget.quiz, variant);
-
-                        setState(() => isAnswered = true);
-                      },
-                      child: Text(variant),
-                    ),
-                  )
-                  .toList(),
-        ),
-      ],
     );
   }
 }

@@ -20,10 +20,10 @@ class TickCrossAnimationWrapper extends StatefulWidget {
 
 class _TickCrossAnimationWrapperState extends State<TickCrossAnimationWrapper>
     with SingleTickerProviderStateMixin {
-  var text = '';
-
   late final AnimationController _animationController;
   late final Animation _animation;
+
+  var text = '';
 
   @override
   void initState() {
@@ -69,19 +69,17 @@ class _TickCrossAnimationWrapperState extends State<TickCrossAnimationWrapper>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: AnimatedBuilder(
-        animation: _animationController,
-        builder:
-            (context, child) => Transform.translate(
-              offset: Offset(0, (_animation.value * 30) * -1),
-              child: Opacity(opacity: _animation.value, child: child),
-            ),
-        child: Text(text, style: TextStyle(fontSize: 200)),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => IgnorePointer(
+    child: AnimatedBuilder(
+      animation: _animationController,
+      builder:
+          (context, child) => Transform.translate(
+            offset: Offset(0, (_animation.value * 30) * -1),
+            child: Opacity(opacity: _animation.value, child: child),
+          ),
+      child: Text(text, style: const TextStyle(fontSize: 200)),
+    ),
+  );
 
   @override
   void dispose() {

@@ -35,11 +35,9 @@ class _BackgroundAnimationWrapperState extends State<BackgroundAnimationWrapper>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      color: _color,
-      duration: widget.duration,
-      onEnd: () => setState(() => _color = _defaultColor),
-    );
-  }
+  Widget build(BuildContext context) => AnimatedContainer(
+    color: _color,
+    duration: widget.duration,
+    onEnd: () => setState(() => _color = _defaultColor),
+  );
 }
