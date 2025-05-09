@@ -35,7 +35,7 @@ class QuizController {
     _isInitialized = true;
   }
 
-  Quiz getNextQuiz({int possibleVariants=4}) {
+  Quiz getNextQuiz({int possibleVariants = 4}) {
     _checkInitialization();
 
     final currentExpression = _expressions[_expressionsPointer];

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:trend_vocab/src/controller/quiz_controller.dart';
 import 'package:trend_vocab/src/entity/quiz.dart';
+import 'package:trend_vocab/src/widget/background_animation_wrapper.dart';
 
 enum _QuizAnswerStatus { wait, wrong, correct }
 
@@ -13,10 +14,13 @@ class QuizScreen extends StatefulWidget {
   State<QuizScreen> createState() => _QuizScreenState();
 }
 
-class _QuizScreenState extends State<QuizScreen> {
+class _QuizScreenState extends State<QuizScreen>
+    with SingleTickerProviderStateMixin {
   final quizController = QuizController();
   Quiz? quiz;
   var _quizAnswerStatus = _QuizAnswerStatus.wait;
+
+  late final AnimationController animationController;
 
   void updateQuiz() {
     try {
@@ -38,10 +42,16 @@ class _QuizScreenState extends State<QuizScreen> {
       _quizAnswerStatus =
           isAnswerRight ? _QuizAnswerStatus.correct : _QuizAnswerStatus.wrong;
     });
+
+    Future.delayed(Duration(seconds: 1)).then((_) {
+      updateQuiz();
+    });
   }
 
   @override
   void initState() {
+    animationController = AnimationController(vsync: this);
+
     quizController.init().then((_) => updateQuiz());
 
     super.initState();
@@ -50,31 +60,36 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(switch (_quizAnswerStatus) {
-              _QuizAnswerStatus.wrong => '❌',
-              _QuizAnswerStatus.correct => '✅',
-              _QuizAnswerStatus.wait || _ => '',
-            }),
-            Expanded(
-              child: AnimatedSwitcher(
-                duration: Duration(milliseconds: 500),
-                child:
-                    quiz == null
-                        ? CircularProgressIndicator()
-                        : QuizWidget(
-                          key: ObjectKey(quiz),
-                          quiz: quiz!,
-                          onQuizAnswer: onQuizAnswer,
-                        ),
-              ),
+      body: Stack(
+        children: [
+          BackgroundAnimationWrapper(
+            accept: switch (_quizAnswerStatus) {
+              _QuizAnswerStatus.wait => null,
+              _QuizAnswerStatus.wrong => false,
+              _QuizAnswerStatus.correct => true,
+            },
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 500),
+                    child:
+                        quiz == null
+                            ? CircularProgressIndicator()
+                            : QuizWidget(
+                              key: ObjectKey(quiz),
+                              quiz: quiz!,
+                              onQuizAnswer: onQuizAnswer,
+                            ),
+                  ),
+                ),
+              ],
             ),
-            FilledButton(onPressed: updateQuiz, child: Text('Next')),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
