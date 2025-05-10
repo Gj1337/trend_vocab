@@ -1,0 +1,34 @@
+name: Deploy
+run-name: ${{ github.actor }} Deploy 🚀
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Read Flutter version from .fvmrc
+        id: fvm
+        run: echo "version=$(jq -r .flutter .fvmrc)" >> $GITHUB_OUTPUT
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm.outputs.version }}
+          channel: stable
+
+      - name: Flutter info
+        run: flutter --version && flutter pub get
+
+      - name: Build web
+        run: flutter build web --release --base-href="/trend_vocab/"
+
+      - name: Deploy web
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
