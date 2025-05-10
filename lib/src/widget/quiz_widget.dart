@@ -102,7 +102,7 @@ class _QuizPicture extends StatelessWidget {
         border: Border.all(color: Theme.of(context).primaryColor, width: 4),
         borderRadius: BorderRadius.circular(20),
       ),
-      constraints: const BoxConstraints(maxHeight: 500, maxWidth: 500),
+      constraints: const BoxConstraints(maxHeight: 700, maxWidth: 700),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: Stack(
@@ -119,11 +119,13 @@ class _QuizPicture extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 size: 150,
               ),
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                highlightColor: Theme.of(context).primaryColor.withAlpha(100),
-                onTap: isAnswered ? onPictureTap?.call : null,
+            Positioned.fill(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  highlightColor: Theme.of(context).primaryColor.withAlpha(100),
+                  onTap: isAnswered ? onPictureTap?.call : null,
+                ),
               ),
             ),
           ],

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-const _tick = '✅';
-const _cross = '❌';
+import 'package:trend_vocab/src/utils/images.dart';
 
 class TickCrossAnimationWrapper extends StatefulWidget {
   const TickCrossAnimationWrapper({
@@ -22,8 +20,6 @@ class _TickCrossAnimationWrapperState extends State<TickCrossAnimationWrapper>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   late final Animation _animation;
-
-  var text = '';
 
   @override
   void initState() {
@@ -60,8 +56,6 @@ class _TickCrossAnimationWrapperState extends State<TickCrossAnimationWrapper>
       return;
     }
 
-    text = accept ? _tick : _cross;
-
     _animationController.reset();
     _animationController.forward();
 
@@ -69,17 +63,24 @@ class _TickCrossAnimationWrapperState extends State<TickCrossAnimationWrapper>
   }
 
   @override
-  Widget build(BuildContext context) => IgnorePointer(
-    child: AnimatedBuilder(
-      animation: _animationController,
-      builder:
-          (context, child) => Transform.translate(
-            offset: Offset(0, (_animation.value * 30) * -1),
-            child: Opacity(opacity: _animation.value, child: child),
-          ),
-      child: Text(text, style: const TextStyle(fontSize: 200)),
-    ),
-  );
+  Widget build(BuildContext context) {
+    final accept = widget.accept;
+
+    return IgnorePointer(
+      child: AnimatedBuilder(
+        animation: _animationController,
+        builder:
+            (context, child) => Transform.translate(
+              offset: Offset(0, (_animation.value * 30) * -1),
+              child: Opacity(opacity: _animation.value, child: child),
+            ),
+        child:
+            widget.accept != null
+                ? Image.asset(accept! ? Images.tick : Images.cross)
+                : const SizedBox(),
+      ),
+    );
+  }
 
   @override
   void dispose() {
