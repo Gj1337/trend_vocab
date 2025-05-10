@@ -8,7 +8,9 @@ import 'package:trend_vocab/src/widget/tick_cross_animation_wrapper.dart';
 enum _QuizAnswerStatus { wait, wrong, correct }
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+  const QuizScreen({super.key, this.onQuizControllerInit});
+
+  final void Function()? onQuizControllerInit;
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -17,12 +19,11 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen>
     with SingleTickerProviderStateMixin {
   final quizController = QuizController();
+
   Quiz? quiz;
   var _quizAnswerStatus = _QuizAnswerStatus.wait;
 
-  late final AnimationController animationController;
-
-  void updateQuiz() {
+  void _updateQuiz() {
     try {
       quiz = null;
       _quizAnswerStatus = _QuizAnswerStatus.wait;
@@ -31,11 +32,12 @@ class _QuizScreenState extends State<QuizScreen>
     } on QuizController {
       //TODO: process exception
     } finally {
+      widget.onQuizControllerInit?.call();
       setState(() {});
     }
   }
 
-  void onQuizAnswer(Quiz quiz, String answer) {
+  void _onQuizAnswer(Quiz quiz, String answer) {
     final isAnswerRight = quizController.chechAnswer(quiz, answer);
 
     setState(() {
@@ -44,15 +46,13 @@ class _QuizScreenState extends State<QuizScreen>
     });
 
     Future.delayed(const Duration(seconds: 1)).then((_) {
-      updateQuiz();
+      _updateQuiz();
     });
   }
 
   @override
   void initState() {
-    animationController = AnimationController(vsync: this);
-
-    quizController.init().then((_) => updateQuiz());
+    quizController.init().then((_) => _updateQuiz());
 
     super.initState();
   }
@@ -80,7 +80,7 @@ class _QuizScreenState extends State<QuizScreen>
                         padding: const EdgeInsets.all(10),
                         child: QuizWidget(
                           quiz: quiz!,
-                          onQuizAnswer: onQuizAnswer,
+                          onQuizAnswer: _onQuizAnswer,
                         ),
                       )
                       : const CircularProgressIndicator(),

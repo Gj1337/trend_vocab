@@ -12,8 +12,9 @@ class QuizController {
   bool get isInitialized => _isInitialized;
 
   var _expressions = <Expression>[];
-  int _expressionsPointer = 0;
   List<Expression> get expressions => _expressions;
+  int _expressionsPointer = 0;
+
   final _random = Random();
 
   Future<void> init() async {

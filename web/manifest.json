@@ -1,11 +1,11 @@
 {
-    "name": "trend_vocab",
-    "short_name": "trend_vocab",
+    "name": "Trend vocabulary",
+    "short_name": "Trend vocab",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "An app for practicing vocabulary for IELTS academic writing",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
