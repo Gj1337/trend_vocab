@@ -11,21 +11,15 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v4
 
-      - name: Read Flutter version from .fvmrc
-        id: fvm
-        run: echo "version=$(jq -r .flutter .fvmrc)" >> $GITHUB_OUTPUT
-
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ steps.fvm.outputs.version }}
-          channel: stable
-
-      - name: Flutter info
-        run: flutter --version && flutter pub get
+        run: |
+          curl -fsSL https://fvm.app/install.sh | bash
+          fvm install
+          fvm flutter pub get 
+          fvm flutter --version
 
       - name: Build web
-        run: flutter build web --release --base-href="/trend_vocab/"
+        run: fvm flutter build web --release --base-href="/trend_vocab/"
 
       - name: Deploy web
         uses: peaceiris/actions-gh-pages@v4
