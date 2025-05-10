@@ -2,7 +2,7 @@
     {
         "name": "the trend was downwards",
         "image": "assets/images/the trend was downwards.png",
-        "audio": "the trend was downwards.mp3",
+        "audio": "assets/audio/the trend was downwards.mp3",
         "examples": [
             "Overall, the trend for coal production was downwards over the period.",
             "As can be seen, there was a downwards trend in the unemployment rate between 2010 and 2015.",
@@ -12,7 +12,7 @@
     {
         "name": "the trend was upwards",
         "image": "assets/images/the trend was upwards.png",
-        "audio": "the trend was upwards.mp3",
+        "audio": "assets/audio/the trend was upwards.mp3",
         "examples": [
             "In general, the trend for renewable energy consumption was upwards throughout the decade.",
             "The data indicates an upwards trend in the sales of electric vehicles.",
@@ -22,7 +22,7 @@
     {
         "name": "to decline, to be on the fall, to drop",
         "image": "assets/images/To decline, to be on the fall, to drop.png",
-        "audio": "To decline, to be on the fall, to drop.mp3",
+        "audio": "assets/audio/To decline, to be on the fall, to drop.mp3",
         "examples": [
             "The number of applications for undergraduate courses declined significantly after 2018.",
             "The company's profits were on the fall for the first quarter of the year.",
@@ -32,7 +32,7 @@
     {
         "name": "to dip",
         "image": "assets/images/to dip.png",
-        "audio": "to dip.mp3",
+        "audio": "assets/audio/to dip.mp3",
         "examples": [
             "Sales figures dipped slightly in July before recovering in August.",
             "The temperature dipped to its lowest point overnight.",
@@ -42,7 +42,7 @@
     {
         "name": "to double",
         "image": "assets/images/to double.png",
-        "audio": "to double.mp3",
+        "audio": "assets/audio/to double.mp3",
         "examples": [
             "The number of overseas students doubled between 2005 and 2015.",
             "The company's revenue doubled following the introduction of the new product.",
@@ -52,7 +52,7 @@
     {
         "name": "to fluctuate",
         "image": "assets/images/to fluctuate.png",
-        "audio": "to fluctuate.mp3",
+        "audio": "assets/audio/to fluctuate.mp3",
         "examples": [
             "The price of oil fluctuated considerably throughout the year.",
             "The unemployment rate fluctuated between 5% and 6% during the period.",
@@ -62,7 +62,7 @@
     {
         "name": "to halve",
         "image": "assets/images/to halve.png",
-        "audio": "to halve.mp3",
+        "audio": "assets/audio/to halve.mp3",
         "examples": [
             "The number of smokers halved in the last twenty years.",
             "The company managed to halve its carbon emissions by implementing new technologies.",
@@ -72,7 +72,7 @@
     {
         "name": "To hit the lowest point, to fall to the lowest of",
         "image": "assets/images/To hit the lowest point, to fall to the lowest of.png",
-        "audio": "To hit the lowest point, to fall to the lowest of.mp3",
+        "audio": "assets/audio/To hit the lowest point, to fall to the lowest of.mp3",
         "examples": [
             "Unemployment hit its lowest point in December at just 3%.",
             "The company's share price fell to its lowest of the year in June.",
@@ -82,7 +82,7 @@
     {
         "name": "To hit, reach a peak, to peak at",
         "image": "assets/images/To hit, reach a peak, to peak at.png",
-        "audio": "To hit, reach a peak, to peak at.mp3",
+        "audio": "assets/audio/To hit, reach a peak, to peak at.mp3",
         "examples": [
             "Sales hit a peak in the summer months.",
             "The number of tourists reached a peak in August.",
@@ -92,7 +92,7 @@
     {
         "name": "To pick up, to grow, to rise, to elevate",
         "image": "assets/images/To pick up, to grow, to rise, to elevate.png",
-        "audio": "To pick up, to grow, to rise, to elevate.mp3",
+        "audio": "assets/audio/To pick up, to grow, to rise, to elevate.mp3",
         "examples": [
             "After a slow start, the economy began to pick up in the second half of the year.",
             "The population of the city grew steadily over the twenty-year period.",
@@ -101,9 +101,9 @@
         ]
     },
     {
-        "name": "to plumet",
-        "image": "assets/images/to plumet.png",
-        "audio": "to plumet.mp3",
+        "name": "to plummet, to plunge",
+        "image": "assets/images/to plummet, to plunge.png",
+        "audio": "assets/audio/to plummet, to plunge.mp3",
         "examples": [
             "The company's stock price plummeted after the scandal was revealed.",
             "The number of bird species in the area plummeted due to deforestation.",
@@ -113,7 +113,7 @@
     {
         "name": "To remain stable, to remain constant",
         "image": "assets/images/To remain stable,to remain constant.png",
-        "audio": "To remain stable, to remain constant.mp3",
+        "audio": "assets/audio/To remain stable,to remain constant.mp3",
         "examples": [
             "The unemployment rate remained stable at around 5% for the entire period.",
             "The price of basic food items remained constant despite inflation in other sectors.",
@@ -123,7 +123,7 @@
     {
         "name": "to reverse",
         "image": "assets/images/to reverse.png",
-        "audio": "to reverse.mp3",
+        "audio": "assets/audio/to reverse.mp3",
         "examples": [
             "The previous downward trend in sales reversed in the final quarter.",
             "After years of decline, the fortunes of the industry began to reverse.",
@@ -132,8 +132,8 @@
     },
     {
         "name": "to stabilise, to level off",
-        "image": "assets/images/to stabilse, to level off.png",
-        "audio": "to stabilse, to level off.mp3",
+        "image": "assets/images/to stabilise, to level off.png",
+        "audio": "assets/audio/to stabilise, to level off.mp3",
         "examples": [
             "After a sharp increase, the number of graduates finding employment began to stabilise.",
             "The rate of inflation levelled off at around 2% after the government's intervention.",
@@ -143,7 +143,7 @@
     {
         "name": "to surge, to soar, rocket",
         "image": "assets/images/to surge, to soar, rocket.png",
-        "audio": "to surge, to soar, rocket.mp3",
+        "audio": "assets/audio/to surge, to soar, rocket.mp3",
         "examples": [
             "Demand for organic food surged in recent years.",
             "House prices in the capital soared during the economic boom.",
@@ -153,7 +153,7 @@
     {
         "name": "to take off",
         "image": "assets/images/to take off.png",
-        "audio": "to take off.mp3",
+        "audio": "assets/audio/to take off.mp3",
         "examples": [
             "The popularity of online streaming services really took off in the last decade.",
             "The sales of the new smartphone took off immediately after its release.",
@@ -163,7 +163,7 @@
     {
         "name": "to triple",
         "image": "assets/images/to triple.png",
-        "audio": "to triple.mp3",
+        "audio": "assets/audio/to triple.mp3",
         "examples": [
             "The cost of fuel tripled during the economic crisis.",
             "The number of users of the social media platform tripled in just two years.",
