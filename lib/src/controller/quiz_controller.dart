@@ -36,13 +36,13 @@ class QuizController {
     _isInitialized = true;
   }
 
-  Quiz getNextQuiz({int possibleVariants = 4}) {
+  Quiz getNextQuiz({int possibleVariantsCount = 4}) {
     _checkInitialization();
 
     final currentExpression = _expressions[_expressionsPointer];
     final possibleVariants = <Expression>[currentExpression];
 
-    while (possibleVariants.length < 4) {
+    while (possibleVariants.length < possibleVariantsCount) {
       final possibleVariantIndex = _random.nextInt(expressions.length - 1);
       final possibleVariant = _expressions[possibleVariantIndex];
 
@@ -59,6 +59,8 @@ class QuizController {
         _expressionsPointer == _expressions.length - 1
             ? 0
             : _expressionsPointer + 1;
+
+    possibleVariants.shuffle();
 
     return Quiz(
       expression: currentExpression,

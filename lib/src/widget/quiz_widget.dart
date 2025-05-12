@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:trend_vocab/src/entity/quiz.dart';
 
-class QuizWidget extends StatefulWidget {
+class QuizWidget extends StatelessWidget {
   const QuizWidget({
     required this.quiz,
     required this.isAnswered,
@@ -18,16 +18,11 @@ class QuizWidget extends StatefulWidget {
   final void Function()? onPictureTap;
 
   @override
-  State<QuizWidget> createState() => _QuizWidgetState();
-}
-
-class _QuizWidgetState extends State<QuizWidget> {
-  @override
   Widget build(BuildContext context) => _QuizProvider(
-    quiz: widget.quiz,
-    onQuizAnswer: widget.onQuizAnswer,
-    onPictureTap: widget.onPictureTap,
-    isAnswered: widget.isAnswered,
+    quiz: quiz,
+    onQuizAnswer: onQuizAnswer,
+    onPictureTap: onPictureTap,
+    isAnswered: isAnswered,
     child: const Column(
       spacing: 15,
       mainAxisAlignment: MainAxisAlignment.center,

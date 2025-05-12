@@ -45,6 +45,11 @@ class _TickCrossAnimationWrapperState extends State<TickCrossAnimationWrapper>
       ),
     ]).animate(_animationController);
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      precacheImage(AssetImage(Images.tick), context);
+      precacheImage(AssetImage(Images.cross), context);
+    });
+
     super.initState();
   }
 

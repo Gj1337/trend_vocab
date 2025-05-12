@@ -21,24 +21,40 @@ class _QuizScreenState extends State<QuizScreen>
     with SingleTickerProviderStateMixin {
   final _quizController = QuizController();
 
-  Quiz? _quiz;
+  Quiz? _currentQuiz;
+  Quiz? _nextQuiz;
+
   var _quizAnswerStatus = _QuizAnswerStatus.wait;
 
-  void _updateQuiz() {
+  Future<void> _precacheImage() async {
+    final nextQuizImage = _nextQuiz?.expression.image;
+    if (nextQuizImage != null) {
+      await precacheImage(AssetImage(nextQuizImage), context);
+    }
+
+    final currentQuizImage = _currentQuiz?.expression.image;
+    if (currentQuizImage != null) {
+      // ignore: use_build_context_synchronously
+      await precacheImage(AssetImage(currentQuizImage), context);
+    }
+  }
+
+  Future<void> _updateQuiz() async {
     try {
-      _quiz = null;
+      _currentQuiz = _nextQuiz ?? _quizController.getNextQuiz();
       _quizAnswerStatus = _QuizAnswerStatus.wait;
 
-      _quiz = _quizController.getNextQuiz();
+      _nextQuiz = _quizController.getNextQuiz();
+
+      await _precacheImage();
     } on QuizController {
       //TODO: process exception
     } finally {
-      widget.onQuizControllerInit?.call();
       setState(() {});
     }
   }
 
-  Future<void> playAudio(Quiz quiz) async {
+  Future<void> _playAudio(Quiz quiz) async {
     try {
       context.aduiotPlayer.playExpression(quiz.expression);
     } catch (problem) {
@@ -54,17 +70,25 @@ class _QuizScreenState extends State<QuizScreen>
           isAnswerRight ? _QuizAnswerStatus.correct : _QuizAnswerStatus.wrong;
     });
 
-    await playAudio(quiz);
+    await _playAudio(quiz);
 
     await Future.delayed(const Duration(seconds: 1));
     _updateQuiz();
+    _precacheImage();
+  }
+
+  Future<void> _init() async {
+    await _quizController.init();
+    await _updateQuiz();
+
+    widget.onQuizControllerInit?.call();
   }
 
   @override
   void initState() {
-    _quizController.init().then((_) => _updateQuiz());
-
     super.initState();
+
+    _init();
   }
 
   @override
@@ -83,15 +107,15 @@ class _QuizScreenState extends State<QuizScreen>
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
             child:
-                _quiz != null
+                _currentQuiz != null
                     ? Padding(
-                      key: ObjectKey(_quiz),
+                      key: ObjectKey(_currentQuiz),
                       padding: const EdgeInsets.all(10),
                       child: QuizWidget(
                         isAnswered: accept != null,
-                        quiz: _quiz!,
+                        quiz: _currentQuiz!,
                         onQuizAnswer: _onQuizAnswer,
-                        onPictureTap: () => playAudio(_quiz!),
+                        onPictureTap: () => _playAudio(_currentQuiz!),
                       ),
                     )
                     : const CircularProgressIndicator(),
