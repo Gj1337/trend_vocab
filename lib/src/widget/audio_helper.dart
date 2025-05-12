@@ -46,6 +46,7 @@ extension AudioPlayerQuizExtention on AudioPlayer {
     await stop();
     await setAsset(expression.audio);
     await play();
+    await stop();
   }
 }
 

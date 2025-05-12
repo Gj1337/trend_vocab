@@ -9,6 +9,7 @@ class QuizWidget extends StatelessWidget {
     required this.isAnswered,
     this.onQuizAnswer,
     this.onPictureTap,
+    this.overlayIcon,
     super.key,
   });
 
@@ -16,6 +17,7 @@ class QuizWidget extends StatelessWidget {
   final bool isAnswered;
   final void Function(Quiz quiz, String answer)? onQuizAnswer;
   final void Function()? onPictureTap;
+  final Widget? overlayIcon;
 
   @override
   Widget build(BuildContext context) => _QuizProvider(
@@ -23,6 +25,8 @@ class QuizWidget extends StatelessWidget {
     onQuizAnswer: onQuizAnswer,
     onPictureTap: onPictureTap,
     isAnswered: isAnswered,
+    overlayIcon: overlayIcon,
+
     child: Column(
       mainAxisSize: MainAxisSize.min,
       spacing: 15,
@@ -32,6 +36,7 @@ class QuizWidget extends StatelessWidget {
           height: 100,
           child: Center(child: _QuizExpressionWidget()),
         ),
+
         const Flexible(child: _QuizPicture()),
 
         SizedBox(
@@ -53,12 +58,14 @@ class _QuizProvider extends InheritedWidget {
     required this.onPictureTap,
     required this.isAnswered,
     required super.child,
+    this.overlayIcon,
   });
 
   final Quiz quiz;
   final void Function(Quiz quiz, String answer)? onQuizAnswer;
   final void Function()? onPictureTap;
   final bool isAnswered;
+  final Widget? overlayIcon;
 
   static _QuizProvider? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_QuizProvider>();
@@ -72,7 +79,8 @@ class _QuizProvider extends InheritedWidget {
       quiz != oldWidget.quiz ||
       onQuizAnswer != oldWidget.onQuizAnswer ||
       onPictureTap != oldWidget.onPictureTap ||
-      isAnswered != oldWidget.isAnswered;
+      isAnswered != oldWidget.isAnswered ||
+      overlayIcon != oldWidget.overlayIcon;
 }
 
 class _QuizExpressionWidget extends StatelessWidget {
@@ -99,9 +107,14 @@ class _QuizPicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _QuizProvider(:quiz, :onPictureTap, :isAnswered) = _QuizProvider.of(
-      context,
-    );
+    final _QuizProvider(
+      :quiz,
+      :onPictureTap,
+      :isAnswered,
+      :overlayIcon,
+    ) = _QuizProvider.of(context);
+
+    print(overlayIcon);
 
     return Container(
       decoration: BoxDecoration(
@@ -119,12 +132,10 @@ class _QuizPicture extends StatelessWidget {
               key: ValueKey(quiz.expression.image),
               quiz.expression.image,
             ),
-            if (isAnswered)
-              Icon(
-                Icons.volume_up_rounded,
-                color: Theme.of(context).primaryColor,
-                size: 150,
-              ),
+
+            if (overlayIcon != null)
+              Material(color: Colors.transparent, child: overlayIcon),
+
             Positioned.fill(
               child: Material(
                 color: Colors.transparent,
@@ -155,11 +166,10 @@ class _QuizButtons extends StatelessWidget {
               .map(
                 (variant) => ElevatedButton(
                   onPressed: () => onQuizAnswer?.call(quiz, variant),
-                  child: SizedBox(
+                  child: Container(
+                    alignment: Alignment.center,
                     width: double.infinity,
-                    child: Center(
-                      child: Text(variant, textAlign: TextAlign.center),
-                    ),
+                    child: Text(variant, textAlign: TextAlign.center),
                   ),
                 ),
               )
@@ -174,8 +184,8 @@ class ExpressionExamples extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _QuizProvider(:quiz) = _QuizProvider.of(context);
-
     final examples = quiz.expression.examples;
+
     return Column(
       spacing: 10,
       crossAxisAlignment: CrossAxisAlignment.center,

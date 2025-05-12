@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trend_vocab/src/controller/quiz_controller.dart';
 import 'package:trend_vocab/src/entity/quiz.dart';
 import 'package:trend_vocab/src/widget/audio_helper.dart';
+import 'package:trend_vocab/src/widget/audio_icon.dart';
 import 'package:trend_vocab/src/widget/background_animation_wrapper.dart';
 import 'package:trend_vocab/src/widget/quiz_widget.dart';
 import 'package:trend_vocab/src/widget/tick_cross_animation_wrapper.dart';
@@ -41,9 +42,8 @@ class _QuizScreenState extends State<QuizScreen>
 
   Future<void> _updateQuiz() async {
     try {
-      _currentQuiz = _nextQuiz ?? _quizController.getNextQuiz();
       _quizAnswerStatus = _QuizAnswerStatus.wait;
-
+      _currentQuiz = _nextQuiz ?? _quizController.getNextQuiz();
       _nextQuiz = _quizController.getNextQuiz();
 
       await _precacheImage();
@@ -114,6 +114,10 @@ class _QuizScreenState extends State<QuizScreen>
                           child: QuizWidget(
                             isAnswered: accept != null,
                             quiz: _currentQuiz!,
+                            overlayIcon: AudioIcon(
+                              color: Theme.of(context).primaryColor,
+                              audioPlayer: context.aduiotPlayer,
+                            ),
                             onQuizAnswer: _onQuizAnswer,
                             onPictureTap: () => _playAudio(_currentQuiz!),
                           ),

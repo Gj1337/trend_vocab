@@ -15,11 +15,9 @@ final _elevatedButtonThemeData = ElevatedButtonThemeData(
 );
 
 final appTheme = ThemeData.from(
-  colorScheme: ColorScheme.fromSeed(
-    primary: _primaryColor,
-    seedColor: _primaryColor,
-  ),
+  colorScheme: ColorScheme.fromSeed(seedColor: _primaryColor),
 ).copyWith(
+  primaryColor: _primaryColor,
   scaffoldBackgroundColor: Colors.white,
   elevatedButtonTheme: _elevatedButtonThemeData,
 );
@@ -30,4 +28,7 @@ final appDarkTheme = ThemeData.from(
     brightness: Brightness.dark,
     primary: _primaryColor,
   ),
-).copyWith(elevatedButtonTheme: _elevatedButtonThemeData);
+).copyWith(
+  primaryColor: _primaryColor,
+  elevatedButtonTheme: _elevatedButtonThemeData,
+);
