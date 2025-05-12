@@ -23,13 +23,24 @@ class QuizWidget extends StatelessWidget {
     onQuizAnswer: onQuizAnswer,
     onPictureTap: onPictureTap,
     isAnswered: isAnswered,
-    child: const Column(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
       spacing: 15,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _QuizExpressionWidget(),
-        Flexible(child: _QuizPicture()),
-        SizedBox(width: 800, child: _QuizButtons()),
+        const SizedBox(
+          height: 100,
+          child: Center(child: _QuizExpressionWidget()),
+        ),
+        const Flexible(child: _QuizPicture()),
+
+        SizedBox(
+          height: 300,
+          child: ButtonsToExamplesAnimationSwitcher(
+            child:
+                isAnswered ? const ExpressionExamples() : const _QuizButtons(),
+          ),
+        ),
       ],
     ),
   );
@@ -76,7 +87,7 @@ class _QuizExpressionWidget extends StatelessWidget {
       enabled: !isAnswered,
       child: Text(
         quiz.expression.name,
-        style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+        style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       ),
     );
@@ -137,18 +148,15 @@ class _QuizButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     final _QuizProvider(:quiz, :onQuizAnswer) = _QuizProvider.of(context);
 
-    return Wrap(
+    return Column(
       spacing: 10,
-      alignment: WrapAlignment.center,
-      runSpacing: 10,
       children:
           quiz.possibleVariants
               .map(
                 (variant) => ElevatedButton(
                   onPressed: () => onQuizAnswer?.call(quiz, variant),
                   child: SizedBox(
-                    width: 300,
-                    height: 40,
+                    width: double.infinity,
                     child: Center(
                       child: Text(variant, textAlign: TextAlign.center),
                     ),
@@ -158,4 +166,49 @@ class _QuizButtons extends StatelessWidget {
               .toList(),
     );
   }
+}
+
+class ExpressionExamples extends StatelessWidget {
+  const ExpressionExamples({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final _QuizProvider(:quiz) = _QuizProvider.of(context);
+
+    final examples = quiz.expression.examples;
+    return Column(
+      spacing: 10,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children:
+          examples
+              .map(
+                (example) =>
+                    Text(example, style: const TextStyle(fontSize: 16)),
+              )
+              .toList(),
+    );
+  }
+}
+
+class ButtonsToExamplesAnimationSwitcher extends StatelessWidget {
+  const ButtonsToExamplesAnimationSwitcher({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => AnimatedSwitcher(
+    transitionBuilder:
+        (child, animation) => FadeTransition(
+          opacity: animation,
+          child: SlideTransition(
+            position: Tween(
+              begin: const Offset(0, 1),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
+        ),
+    duration: const Duration(milliseconds: 200),
+    child: child,
+  );
 }

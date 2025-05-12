@@ -71,10 +71,6 @@ class _QuizScreenState extends State<QuizScreen>
     });
 
     await _playAudio(quiz);
-
-    await Future.delayed(const Duration(seconds: 1));
-    _updateQuiz();
-    _precacheImage();
   }
 
   Future<void> _init() async {
@@ -104,22 +100,43 @@ class _QuizScreenState extends State<QuizScreen>
         alignment: AlignmentDirectional.center,
         children: [
           BackgroundAnimationWrapper(accept: accept),
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            child:
-                _currentQuiz != null
-                    ? Padding(
-                      key: ObjectKey(_currentQuiz),
-                      padding: const EdgeInsets.all(10),
-                      child: QuizWidget(
-                        isAnswered: accept != null,
-                        quiz: _currentQuiz!,
-                        onQuizAnswer: _onQuizAnswer,
-                        onPictureTap: () => _playAudio(_currentQuiz!),
-                      ),
-                    )
-                    : const CircularProgressIndicator(),
-          ),
+          _currentQuiz != null
+              ? AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                child: Padding(
+                  key: ObjectKey(_currentQuiz),
+                  padding: const EdgeInsets.all(10),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 800),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: QuizWidget(
+                            isAnswered: accept != null,
+                            quiz: _currentQuiz!,
+                            onQuizAnswer: _onQuizAnswer,
+                            onPictureTap: () => _playAudio(_currentQuiz!),
+                          ),
+                        ),
+                        Visibility(
+                          maintainSize: true,
+                          maintainAnimation: true,
+                          maintainState: true,
+                          visible: accept != null,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _updateQuiz();
+                              _precacheImage();
+                            },
+                            child: const Center(child: Text('Next')),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+              : const CircularProgressIndicator(),
           TickCrossAnimationWrapper(accept: accept),
         ],
       ),
