@@ -29,18 +29,18 @@ class QuizWidget extends StatelessWidget {
 
     child: Column(
       mainAxisSize: MainAxisSize.min,
-      spacing: 15,
+      spacing: 10,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const SizedBox(
-          height: 100,
+          height: 80,
           child: Center(child: _QuizExpressionWidget()),
         ),
 
         const Flexible(child: _QuizPicture()),
 
         SizedBox(
-          height: 300,
+          height: 220,
           child: ButtonsToExamplesAnimationSwitcher(
             child:
                 isAnswered ? const ExpressionExamples() : const _QuizButtons(),

@@ -114,9 +114,11 @@ class _QuizScreenState extends State<QuizScreen>
                           child: QuizWidget(
                             isAnswered: accept != null,
                             quiz: _currentQuiz!,
-                            overlayIcon: AudioIcon(
-                              color: Theme.of(context).primaryColor,
-                              audioPlayer: context.aduiotPlayer,
+                            overlayIcon: FittedBox(
+                              child: AudioIcon(
+                                color: Theme.of(context).primaryColor,
+                                audioPlayer: context.aduiotPlayer,
+                              ),
                             ),
                             onQuizAnswer: _onQuizAnswer,
                             onPictureTap: () => _playAudio(_currentQuiz!),

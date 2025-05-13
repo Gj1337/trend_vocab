@@ -10,7 +10,7 @@ final _elevatedButtonThemeData = ElevatedButtonThemeData(
     padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
     textStyle: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-    minimumSize: const Size(64, 64),
+    minimumSize: const Size(54, 54),
   ),
 );
 
