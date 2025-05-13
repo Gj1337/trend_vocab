@@ -1,0 +1,12 @@
+name: "Flutter Setup"
+description: "Sets up Flutter SDK and environment"
+runs:
+  using: "composite"
+  steps:
+    - name: Install Flutter
+      shell: bash
+      run: |
+        curl -fsSL https://fvm.app/install.sh | bash
+        fvm install
+        fvm flutter pub get 
+        fvm flutter --version

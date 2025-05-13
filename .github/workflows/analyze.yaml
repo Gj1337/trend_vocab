@@ -1,0 +1,35 @@
+name: Analyze
+run-name: Code analyzing 
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      
+      - name: Flutter Setup
+        uses: ./.github/actions/flutter-setup
+
+      - name: Lint Code
+        run: |
+             fvm flutter analyze
+             fvm dart format .  --set-exit-if-changed
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      
+      - name: Flutter Setup
+        uses: ./.github/actions/flutter-setup
+
+      - name: Test 
+        run: fvm flutter test     

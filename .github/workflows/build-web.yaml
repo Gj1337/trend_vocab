@@ -1,0 +1,39 @@
+name: Web
+run-name: Deploying web
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_web:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      
+      - name: Flutter Setup
+        uses: ./.github/actions/flutter-setup
+
+      - name: Build web
+        run: fvm flutter build web --release --base-href="/trend_vocab/"
+        
+      - name: Upload web build as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: build/web
+
+  deploy-web:
+    needs: build_web
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+
+      - name: Deploy web
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
